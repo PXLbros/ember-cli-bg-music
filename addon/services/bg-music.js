@@ -5,11 +5,9 @@ export default Ember.Service.extend({
         this._super(...arguments);
 
         let audio = document.createElement('audio');
-//        audio.setAttribute('src', 'music.mp3');
         audio.setAttribute('loop', true);
         this.set('audioElement', audio);
 
-  //      audio.play();
         this.set('isPlaying', true);
 
         // Stop music on window loose focusA
