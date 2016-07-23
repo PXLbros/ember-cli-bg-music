@@ -26,7 +26,9 @@ export default Ember.Controller.extend({
        },
 
        fadeInMusic() {
-           this.get('bgMusic').fadein();
+           this.get('bgMusic').fadein(() => {
+               this.send('playMusic');    
+           });
        }
     }
 });

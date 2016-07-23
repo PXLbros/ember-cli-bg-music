@@ -68,19 +68,14 @@ export default Ember.Service.extend({
     fadeout(callback) {
         // some logic to fade in
         let audio = this.get('audioElement');
-        audio.animate({volume: 0}, 1000);
-        //audio.pause();
+        Ember.$(audio).animate({volume: 0}, 1000, callback);
         console.log('Fade out music');
-        
-        callback();
     },
 
     // Fade in
     fadein(callback) {
         let audio = this.get('audioElement');
-        audio.animate({volume: 1}, 1000);
+        Ember.$(audio).animate({volume: 1}, 1000, callback);
         console.log('Fade in music');
-
-        callback();
     }
 });
