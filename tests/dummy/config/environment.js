@@ -17,8 +17,8 @@ module.exports = function(environment) {
       // Here you can pass flags/options to your application instance
       // when it is created
     },
-      
-    musicURL: 'music.mp3'
+
+    musicURL: 'bensound-energy.mp3'
   };
 
   if (environment === 'development') {
