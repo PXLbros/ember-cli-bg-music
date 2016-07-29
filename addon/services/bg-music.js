@@ -18,12 +18,6 @@ export default Ember.Service.extend({
         // Handle page visibility change
         document.addEventListener(this.get('visibilityChange'), this.get('handleVisibilityChange').bind(this), false);
 
-        if (document[this.get('hidden')]) {
-            console.log('hidden');
-        } else {
-            console.log('visible');
-        }
-
     },
 
     // Track if it's playing
@@ -127,7 +121,7 @@ export default Ember.Service.extend({
         let audio = this.get('audioElement');
         Ember.$(audio).animate({volume: 1}, 1000, callback);
         console.log('Fade in music');
-    }
+    },
 
     turnOnManualStop() {
         this.set('isManualStop', true);

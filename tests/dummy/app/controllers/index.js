@@ -16,23 +16,23 @@ export default Ember.Controller.extend({
             this.get('bgMusic').turnOnManualStop();
         },
 
-       muteMusic() {
-           this.get('bgMusic').mute();
+        muteMusic() {
+            this.get('bgMusic').mute();
         },
 
-       unMuteMusic() {
-           this.get('bgMusic').unmute();
-       },
+        unMuteMusic() {
+            this.get('bgMusic').unmute();
+        },
 
-       fadeOutMusic() {
-           this.get('bgMusic').fadeout();
-       },
+        fadeOutMusic() {
+            this.get('bgMusic').fadeout();
+        },
 
-       fadeInMusic() {
-           this.get('bgMusic').fadein(() => {
-               this.send('playMusic');
-           });
-       }
+        fadeInMusic() {
+            this.get('bgMusic').fadein(() => {
+                this.send('playMusic');
+            });
+        }
     }
 
 });

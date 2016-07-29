@@ -50,7 +50,7 @@ or
 
 The background music doesn't play on page load by default because in many cases it can be jarring when the page hasn't finished the initial load or if you want to first perform a preloader animation.
 
-Note that Bg-music and all its properties and methods are defined on an Ember service object. To access the service, you must first define or "inject" the service into a controller or component. Because you want your background music to be available everywhere on your page, it'd be a good idea to just inject the Bg-music service into the application controller (which lives on the top-level and can pass data and actions anywhere down your page).
+Note that Bg-music and all its properties and methods are defined on an Ember service object. To access the service, you must first define or "inject" the service into a controller or component. Because you want your background music to be available everywhere on your page, it'd be a good idea to just inject the Bg-music service into the application controller (which lives on the top-level of an Ember app and can pass data and actions anywhere down your page).
 
 For example, if your page doesn't already have an application controller file generated, then go ahead and generate it:
 
@@ -66,7 +66,7 @@ Now you should have full access to Bg-music's methods and proeprties!
 
 Bg-music provides eight methods out of the box:
 
-1. `play()`
+1) `play()`
 
 Plays or resumes the background music.
 
@@ -76,31 +76,33 @@ e.g.
 
 Note that `bgMusic` is the property name of the Ember injected service
 
-2. `stop()`
+2) `stop()`
 
 Stops the background music completely.
 
-3. `mute()`
+3) `mute()`
 
 Mutes the background music but does not stop it.
 
-4. `unmute()`
+4) `unmute()`
 
 Unmutes the background music.
 
-5. `fadeout()`
+5) `fadeout()`
 
 Gradually mutes the background music but does not stop it.
 
-6. `fadein()`
+6) `fadein()`
 
 Gradually unmutes the background music.
 
-7. `turnOnManualStop()`
+7) `turnOnManualStop()`
 
-Sets the `isManualStop` property to true. Bg-music automatically turns off the background music when the page is out of focus (when the user tabs or navigates away from the page) and then turns it back on when the page is in focus again. `turnOnManualStop` works in conjunction with `stop()` and `mute()` by making sure Bg-music doesn't turn on the background music if the user had explicitly turned off the background music.
+Sets the `isManualStop` property to true. 
 
-For example let's say you define an action method called `stopMusic()` that is called whenever the user clicks an element to turn off the background music. If you want the background music to stay turned off when the page is out of focus and in focus again, then you'd want to use both `stop()` and `turnOnManualStop()`
+Bg-music automatically turns off the background music when the page is out of focus (like when the user tabs or navigates away from the page) and then turns it back on when the page is back in focus again. `turnOnManualStop` works in conjunction with `stop()` and `mute()` by making sure Bg-music doesn't automatically turn on the background music when a page is in focus again if the user had explicitly turned off the background music.
+
+For example let's say you define an action method called `stopMusic()` that is called whenever the user clicks an element to turn off the background music. If you want the background music to stay turned off when the page is out of focus and in focus again, then you'd want to use both `stop()` and `turnOnManualStop()`.
 
 ```javascript
 actions: {
@@ -112,6 +114,16 @@ actions: {
 }
 ```
 
-8. `turnOffManualStop()`
+8) `turnOffManualStop()`
 
-Stes the `isManualStop` property to false. You want to do this if the user has explicitly turned the background music back on.
+Sets the `isManualStop` property to false. You want to do this if the user has explicitly turned the background music back on.
+
+```javascript
+actions: {
+  playMusic() {
+    this.get('bgMusic').play();
+
+    this.get('bgMusic').turnOffManualStop()
+  }  
+}
+```
