@@ -1,8 +1,5 @@
 import Ember from 'ember';
 
-// let hidden;
-// let visibilityChange;
-
 export default Ember.Service.extend({
     init() {
         this._super(...arguments);

@@ -46,9 +46,19 @@ or
 `musicURL: "assets/audio/jazz.mp3"`
 
 
-## Play Your Audio
+## Play Your Background Music
 
 The background music doesn't play on page load by default because in many cases it can be jarring when the page hasn't finished the initial load or if you want to first perform a preloader animation.
+
+But if you do want your background music to play on page initialization, then in your `config/environment.js` file, locate the `playOnInit` property and set it to `true`.
+
+Default
+
+`playOnInit: false`
+
+After
+
+`playOnInit: true`
 
 Note that Bg-music and all its properties and methods are defined on an Ember service object. To access the service, you must first define or "inject" the service into a controller or component. Because you want your background music to be available everywhere on your page, it'd be a good idea to just inject the Bg-music service into the application controller (which lives on the top-level of an Ember app and can pass data and actions anywhere down your page).
 
@@ -100,16 +110,16 @@ Gradually unmutes the background music.
 
 Sets the `isManualStop` property to true. 
 
-Bg-music automatically turns off the background music when the page is out of focus (like when the user tabs or navigates away from the page) and then turns it back on when the page is back in focus again. `turnOnManualStop` works in conjunction with `stop()` and `mute()` by making sure Bg-music doesn't automatically turn on the background music when a page is in focus again if the user had explicitly turned off the background music.
+Bg-music automatically turns off the background music when the page is out of focus (like when the user tabs or navigates away from the page) and then turns it back on when the page is back in focus. `turnOnManualStop` works in conjunction with `stop()` and `mute()` by making sure that if the user had explicitly turned off the background music then that Bg-music doesn't inadvertantly turn on the background music when the page is back in focus.
 
-For example let's say you define an action method called `stopMusic()` that is called whenever the user clicks an element to turn off the background music. If you want the background music to stay turned off when the page is out of focus and in focus again, then you'd want to use both `stop()` and `turnOnManualStop()`.
+For example let's say you define an action method called `stopMusic()` that is called whenever the user clicks an element to turn off the background music. If you want the background music to stay turned off when the page is out of focus and later back in focus, then you'd want to use both `stop()` and `turnOnManualStop()`.
 
 ```javascript
 actions: {
   stopMusic() {
     this.get('bgMusic').stop();
 
-    this.get('bgMusic').turnOnManualStop()
+    this.get('bgMusic').turnOnManualStop();
   }  
 }
 ```
@@ -123,7 +133,7 @@ actions: {
   playMusic() {
     this.get('bgMusic').play();
 
-    this.get('bgMusic').turnOffManualStop()
+    this.get('bgMusic').turnOffManualStop();
   }  
 }
 ```

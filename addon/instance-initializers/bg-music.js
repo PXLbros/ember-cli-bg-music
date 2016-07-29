@@ -17,6 +17,11 @@ export function initialize(applicationInstance) {
     let audioElement = bgMusic.get('audioElement');
     audioElement.setAttribute('src', config.musicURL);
 
+    // Play the background music on init if `playOnInit` property is set to true and the page isn't hidden
+    if (config.playOnInit && bgMusic.get('hidden') !== 'hidden') {
+        audioElement.play();
+    }
+
 }
 
 export default {

@@ -18,7 +18,12 @@ module.exports = function(environment) {
       // when it is created
     },
 
-    musicURL: 'bensound-energy.mp3'
+    /*
+     * Bg-music init options
+     */
+    musicURL: 'bensound-energy.mp3',
+    playOnInit: true,
+
   };
 
   if (environment === 'development') {
