@@ -17,6 +17,13 @@ export default Ember.Service.extend({
 
         // Handle page visibility change
         document.addEventListener(this.get('visibilityChange'), this.get('handleVisibilityChange').bind(this), false);
+
+        if (document[this.get('hidden')]) {
+            console.log('hidden');
+        } else {
+            console.log('visible');
+        }
+
     },
 
     // Track if it's playing
@@ -33,6 +40,11 @@ export default Ember.Service.extend({
 
     // Vendor prefixed visibilitychange API
     visibilityChange: null,
+
+
+    /*
+     * Passive methods
+     */
 
     // Perform a browser check to handle prefixing for the visibilitychange API
     prefixVisibilityChange() {
@@ -58,12 +70,17 @@ export default Ember.Service.extend({
         if (document[this.get('hidden')]) {
             this.get('stop').call(this);
         } else {
-            if (!this.get('manualStop')) {
+            if (!this.get('isManualStop')) {
                 this.get('play').call(this);
             }
         }
 
     },
+
+
+    /*
+     * Actionable methods
+     */
 
     // Play music
     play() {
@@ -79,14 +96,6 @@ export default Ember.Service.extend({
         audio.pause();
         console.log('Stop Music');
         this.set('isPlaying', false);
-    },
-
-    turnOnManualStop() {
-        this.set('isManualStop', true);
-    },
-
-    turnOffManualStop() {
-        this.set('isManualStop', false);
     },
 
     // Mute music
@@ -119,5 +128,14 @@ export default Ember.Service.extend({
         Ember.$(audio).animate({volume: 1}, 1000, callback);
         console.log('Fade in music');
     }
+
+    turnOnManualStop() {
+        this.set('isManualStop', true);
+    },
+
+    turnOffManualStop() {
+        this.set('isManualStop', false);
+    },
+
 
 });
