@@ -50,15 +50,13 @@ or
 
 The background music doesn't play on page load by default because in many cases it can be jarring when the page hasn't finished the initial load or if you want to first perform a preloader animation.
 
-But if you do want your background music to play on page initialization, then in your `config/environment.js` file, locate the `playOnInit` property and set it to `true`.
-
-Default
-
-`playOnInit: false`
-
-After
+But if you do want your background music to play on page initialization, then in your `config/environment.js` file, you must define the `playOnInit` property and set it to `true`.
 
 `playOnInit: true`
+
+Now your background music should play on page initialization.
+
+## Service
 
 Note that Bg-music and all its properties and methods are defined on an Ember service object. To access the service, you must first define or "inject" the service into a controller or component. Because you want your background music to be available everywhere on your page, it'd be a good idea to just inject the Bg-music service into the application controller (which lives on the top-level of an Ember app and can pass data and actions anywhere down your page).
 
@@ -70,7 +68,7 @@ This should create an `application.js` file in your `app/controllers` folder. Op
 
 `bgMusic: Ember.inject.service()`
 
-Now you should have full access to Bg-music's methods and proeprties!
+Now you should have full access to Bg-music's methods and properties!
 
 ## Methods
 
