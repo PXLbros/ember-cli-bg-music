@@ -25,6 +25,9 @@ export default Ember.Service.extend({
     //Track if it's muted
     isMuted: false,
 
+    // Track is user has manually stopped the music
+    isManualStop: false,
+
     // Track if page is visible or hidden
     hidden: null,
 
@@ -53,9 +56,11 @@ export default Ember.Service.extend({
         let audio = this.get('audioElement');
 
         if (document[this.get('hidden')]) {
-            this.get('unmute').call(this);
+            this.get('stop').call(this);
         } else {
-            this.get('mute').call(this);
+            if (!this.get('manualStop')) {
+                this.get('play').call(this);
+            }
         }
 
     },
@@ -74,6 +79,14 @@ export default Ember.Service.extend({
         audio.pause();
         console.log('Stop Music');
         this.set('isPlaying', false);
+    },
+
+    turnOnManualStop() {
+        this.set('isManualStop', true);
+    },
+
+    turnOffManualStop() {
+        this.set('isManualStop', false);
     },
 
     // Mute music

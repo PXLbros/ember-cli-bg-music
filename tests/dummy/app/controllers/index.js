@@ -3,14 +3,17 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
     bgMusic: Ember.inject.service(),
 
-
     actions: {
         playMusic() {
             this.get('bgMusic').play();
+
+            this.get('bgMusic').turnOffManualStop();
         },
 
         stopMusic() {
             this.get('bgMusic').stop();
+
+            this.get('bgMusic').turnOnManualStop();
         },
 
        muteMusic() {
@@ -27,8 +30,9 @@ export default Ember.Controller.extend({
 
        fadeInMusic() {
            this.get('bgMusic').fadein(() => {
-               this.send('playMusic');    
+               this.send('playMusic');
            });
        }
     }
+
 });
