@@ -85,7 +85,6 @@ export default Ember.Service.extend({
     stop() {
         let audio = this.get('audioElement');
         audio.pause();
-        console.log('Stop Music');
         this.set('isPlaying', false);
     },
 
@@ -93,7 +92,6 @@ export default Ember.Service.extend({
     mute() {
         let audio = this.get('audioElement');
         audio.muted = true;
-        console.log('Mute Music');
         this.set('isMuted', true);
     },
 
@@ -101,7 +99,6 @@ export default Ember.Service.extend({
     unmute() {
         let audio = this.get('audioElement');
         audio.muted = false;
-        console.log('Unmute music');
         this.set('isMuted', false);
     },
 
@@ -110,14 +107,12 @@ export default Ember.Service.extend({
         // some logic to fade in
         let audio = this.get('audioElement');
         Ember.$(audio).animate({volume: 0}, 1000, callback);
-        console.log('Fade out music');
     },
 
     // Fade in
     fadein(callback) {
         let audio = this.get('audioElement');
         Ember.$(audio).animate({volume: 1}, 1000, callback);
-        console.log('Fade in music');
     },
 
     turnOnManualStop() {
