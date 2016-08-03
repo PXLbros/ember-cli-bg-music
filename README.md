@@ -31,19 +31,32 @@ For more information on using ember-cli, visit [http://ember-cli.com/](http://em
 
 ## Initial Setup
 
+In your Ember app's root directory run
+
+`npm install ember-cli-bg-music --save`
+
 Before the bg-music addon can work, you must first provide a path to the audio file for the addon to consume. To do this, navigate to the `config` folder and open the `environment.js` file. Inside the file you must define a `musicURL` property on the `ENV` object otherwise Ember will throw an error and your application won't load. The `musicURL` property takes as its value the path to the audio file. If you placed your audio file in the `public` directory, you can simply pass in the filename of the audio file as the value for the `musicURL` property. 
 
 For example:
 
-`musicURL: "jazz.mp3"` 
+```js
+config/environment.js
+musicURL: "jazz.mp3"
+``` 
 
 Or if you placed your audio file in a subdirectory nth-level deep:
 
-`musicURL: "assets/jazz.mp3"`
+```js
+config/environment.js
+musicURL: "assets/jazz.mp3"
+```
 
 or
 
-`musicURL: "assets/audio/jazz.mp3"`
+```js
+config/environment.js
+musicURL: "assets/audio/jazz.mp3"
+```
 
 
 ## Play Your Background Music
@@ -52,7 +65,10 @@ The background music doesn't play on page load by default because in many cases 
 
 But if you do want your background music to play on page initialization, then in your `config/environment.js` file, you must define the `playOnInit` property and set it to `true`.
 
-`playOnInit: true`
+```js
+config/environment.js
+playOnInit: true
+```
 
 Now your background music should play on page initialization.
 
@@ -66,8 +82,10 @@ For example, if your page doesn't already have an application controller file ge
 
 This should create an `application.js` file in your `app/controllers` folder. Open the file and inject the Bg-music service:
 
-`bgMusic: Ember.inject.service()`
-
+```js
+app/controllers/application.js
+`bgMusic: Ember.inject.service()
+```
 Now you should have full access to Bg-music's methods and properties!
 
 ## Methods
@@ -80,7 +98,9 @@ Plays or resumes the background music.
 
 e.g.
 
-`this.get('bgMusic').play()`
+```js
+this.get('bgMusic').play()
+```
 
 Note that `bgMusic` is the property name of the Ember injected service
 
@@ -112,7 +132,7 @@ Bg-music automatically turns off the background music when the page is out of fo
 
 For example let's say you define an action method called `stopMusic()` that is called whenever the user clicks an element to turn off the background music. If you want the background music to stay turned off when the page is out of focus and later back in focus, then you'd want to use both `stop()` and `turnOnManualStop()`.
 
-```javascript
+```js
 actions: {
   stopMusic() {
     this.get('bgMusic').stop();
@@ -126,7 +146,7 @@ actions: {
 
 Sets the `isManualStop` property to false. You want to do this if the user has explicitly turned the background music back on.
 
-```javascript
+```js
 actions: {
   playMusic() {
     this.get('bgMusic').play();
