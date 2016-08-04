@@ -92,7 +92,7 @@ Now you should have full access to Bg-music's methods and properties!
 
 Bg-music provides eight methods out of the box:
 
-1) `play()`
+1) `play(turnOffManualStop)`
 
 Plays or resumes the background music.
 
@@ -104,15 +104,27 @@ this.get('bgMusic').play()
 
 Note that `bgMusic` is the property name of the Ember injected service
 
-2) `stop()`
+2) `stop(turnOnManualStop)`
 
 Stops the background music completely.
 
-3) `mute()`
+Bg-music automatically turns off the background music when the page is out of focus (like when the user tabs or navigates away from the page) and then turns the background music back on when the page is back in focus. Passing in `turnOnManualStop` will make sure that if the user had explicitly turned off the background music then that Bg-music doesn't inadvertantly turn on the background music when the page is back in focus.
+
+For example let's say you define an action method called `stopMusic()` that is called whenever the user clicks an element to turn off the background music. If you want the background music to stay turned off when the page is out of focus and later back in focus, then you'd want to use `stop()` and pass in `turnOnManualStop`
+
+```js
+stop(''turnOnManualStop');
+```
+
+---
+
+Sets the `isManualStop` property to false. You want to do this if the user has explicitly turned the background music back on.
+
+3) `mute(turnOnManualStop)`
 
 Mutes the background music but does not stop it.
 
-4) `unmute()`
+4) `unmute(turnOffManualStop)`
 
 Unmutes the background music.
 
@@ -123,35 +135,3 @@ Gradually mutes the background music but does not stop it.
 6) `fadein()`
 
 Gradually unmutes the background music.
-
-7) `turnOnManualStop()`
-
-Sets the `isManualStop` property to true. 
-
-Bg-music automatically turns off the background music when the page is out of focus (like when the user tabs or navigates away from the page) and then turns it back on when the page is back in focus. `turnOnManualStop` works in conjunction with `stop()` and `mute()` by making sure that if the user had explicitly turned off the background music then that Bg-music doesn't inadvertantly turn on the background music when the page is back in focus.
-
-For example let's say you define an action method called `stopMusic()` that is called whenever the user clicks an element to turn off the background music. If you want the background music to stay turned off when the page is out of focus and later back in focus, then you'd want to use both `stop()` and `turnOnManualStop()`.
-
-```js
-actions: {
-  stopMusic() {
-    this.get('bgMusic').stop();
-
-    this.get('bgMusic').turnOnManualStop();
-  }  
-}
-```
-
-8) `turnOffManualStop()`
-
-Sets the `isManualStop` property to false. You want to do this if the user has explicitly turned the background music back on.
-
-```js
-actions: {
-  playMusic() {
-    this.get('bgMusic').play();
-
-    this.get('bgMusic').turnOffManualStop();
-  }  
-}
-```

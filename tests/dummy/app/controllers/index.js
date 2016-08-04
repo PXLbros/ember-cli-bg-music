@@ -5,15 +5,11 @@ export default Ember.Controller.extend({
 
     actions: {
         playMusic() {
-            this.get('bgMusic').play();
-
-            this.get('bgMusic').turnOffManualStop();
+            this.get('bgMusic').play("turnOffManualStop");
         },
 
         stopMusic() {
-            this.get('bgMusic').stop();
-
-            this.get('bgMusic').turnOnManualStop();
+            this.get('bgMusic').stop("turnOnManualStop");
         },
 
         muteMusic() {
