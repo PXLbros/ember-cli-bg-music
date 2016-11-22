@@ -1,6 +1,9 @@
 import Ember from 'ember';
 
 export default Ember.Service.extend({
+    /*------------------------------------*\
+      INIT
+    \*------------------------------------*/
     init() {
         this._super(...arguments);
 
@@ -16,6 +19,11 @@ export default Ember.Service.extend({
         document.addEventListener(this.get('visibilityChange'), this.get('handleVisibilityChange').bind(this), false);
 
     },
+
+
+    /*------------------------------------*\
+      STATES
+    \*------------------------------------*/
 
     // Track if it's playing
     isPlaying: false,
@@ -33,9 +41,9 @@ export default Ember.Service.extend({
     visibilityChange: null,
 
 
-    /*
-     * Passive methods
-     */
+    /*------------------------------------*\
+      PASSIVE METHODS
+    \*------------------------------------*/
 
     // Perform a browser check to handle prefixing for the visibilitychange API
     prefixVisibilityChange() {
@@ -59,43 +67,48 @@ export default Ember.Service.extend({
         let audio = this.get('audioElement');
 
         if (document[this.get('hidden')]) {
-            this.get('stop').call(this);
+            this.stop();
         } else {
             if (!this.get('isManualStop')) {
-                this.get('play').call(this);
+                this.play();
             }
         }
 
     },
 
-    /*
-     * Reusable methods
-     */
+
+    /*------------------------------------*\
+      REUSABLE METHODS
+    \*------------------------------------*/
 
     turnOffManualStop(turnOffManualStop) {
-        if (turnOffManualStop === "turnOffManualStop") {
+        if (turnOffManualStop) {
             this.set('isManualStop', false);
         }
     },
 
     turnOnManualStop(turnOnManualStop) {
-        if (turnOnManualStop === "turnOnManualStop") {
+        if (turnOnManualStop) {
             this.set('isManualStop', true);
         }
     },
 
-    /*
-     * Actionable methods
-     */
+
+    /*------------------------------------*\
+      ACTIONABLE METHODS
+    \*------------------------------------*/
 
     // Play music
     play(turnOffManualStop) {
         let audio = this.get('audioElement');
         audio.play();
-        console.log('Play Music');
         this.set('isPlaying', true);
 
-        this.get('turnOffManualStop').call(this, turnOffManualStop);
+        if (turnOffManualStop) {
+            this.turnOffManualStop(turnOffManualStop);
+        }
+
+
     },
 
     // Stop music
@@ -104,7 +117,10 @@ export default Ember.Service.extend({
         audio.pause();
         this.set('isPlaying', false);
 
-        this.get('turnOnManualStop').call(this, turnOnManualStop);
+        if (turnOnManualStop) {
+            this.turnOnManualStop(turnOnManualStop);
+        }
+
     },
 
     // Mute music
@@ -113,7 +129,7 @@ export default Ember.Service.extend({
         audio.muted = true;
         this.set('isMuted', true);
 
-        this.get('turnOnManualStop').call(this, turnOnManualStop);
+        this.turnOnManualStop(turnOnManualStop);
     },
 
     // Unmute music
@@ -122,7 +138,7 @@ export default Ember.Service.extend({
         audio.muted = false;
         this.set('isMuted', false);
 
-        this.get('turnOffManualStop').call(this, turnOffManualStop);
+        this.turnOffManualStop(turnOffManualStop);
     },
 
     // Fade out

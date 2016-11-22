@@ -84,7 +84,7 @@ This should create an `application.js` file in your `app/controllers` folder. Op
 
 ```js
 app/controllers/application.js
-`bgMusic: Ember.inject.service()
+bgMusic: Ember.inject.service()
 ```
 Now you should have full access to Bg-music's methods and properties!
 
@@ -108,12 +108,19 @@ Note that `bgMusic` is the property name of the Ember injected service
 
 Stops the background music completely.
 
-Bg-music automatically turns off the background music when the page is out of focus (like when the user tabs or navigates away from the page) and then turns the background music back on when the page is back in focus. Passing in `turnOnManualStop` will make sure that if the user had explicitly turned off the background music then that Bg-music doesn't inadvertantly turn on the background music when the page is back in focus.
+Bg-music automatically turns off the background music when the page is out of focus (like when the user tabs or navigates away from the page) and then turns the background music back on when the page is back in focus. Passing in `true` will make sure that if the user had explicitly turned off the background music, the background music will stay turned off when the page is back in focus. 
 
-For example let's say you define an action method called `stopMusic()` that is called whenever the user clicks an element to turn off the background music. If you want the background music to stay turned off when the page is out of focus and later back in focus, then you'd want to use `stop()` and pass in `turnOnManualStop`
+For example let's say you define an action method called `stopMusic()` that is called whenever the user clicks an element to turn off the background music. If you want the background music to stay turned off when the page is out of focus and later back in focus, then you'd want to use `stop()` and pass in `true`.
 
 ```js
-stop(''turnOnManualStop');
+stop(true);
+```
+
+Be aware that if you pass in `true` for `stop()`, you should remember to pass in `true` for `play()` as well to let the addon know that the background music will play when the page is back in focus.
+
+```js
+stop(true);
+play(true);
 ```
 
 ---
