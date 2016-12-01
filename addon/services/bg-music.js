@@ -110,7 +110,6 @@ export default Ember.Service.extend({
 
     // TOGGLE MUSIC
     toggleMusic(turnOnManualStop) {
-        console.log(1);
         if (this.isPlaying) {
             this.stopMusic(turnOnManualStop);
         } else {
