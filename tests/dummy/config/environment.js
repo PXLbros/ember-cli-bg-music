@@ -22,7 +22,7 @@ module.exports = function(environment) {
      * Bg-music init options
      */
     musicURL: 'bensound-energy.mp3',
-    // playOnInit: true,
+    playOnInit: false,
 
   };
 

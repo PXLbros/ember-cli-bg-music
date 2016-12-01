@@ -1,5 +1,6 @@
 import Ember from 'ember';
 
+
 export default Ember.Service.extend({
     /*------------------------------------*\
       INIT
@@ -18,7 +19,14 @@ export default Ember.Service.extend({
         // Handle page visibility change
         document.addEventListener(this.get('visibilityChange'), this.get('handleVisibilityChange').bind(this), false);
 
+        // GET THE CONFIG OBJECT
+        this.set('configObject', Ember.getOwner(this).resolveRegistration('config:environment'));
+
+
     },
+
+    // PROPERTY HOLDER FOR RETRIEVED `configObject`
+    configObject: null,
 
 
     /*------------------------------------*\
@@ -67,10 +75,12 @@ export default Ember.Service.extend({
         let audio = this.get('audioElement');
 
         if (document[this.get('hidden')]) {
-            this.stop();
+            this.stopMusic();
         } else {
-            if (!this.get('isManualStop')) {
-                this.play();
+            if (this.configObject.playOnInit) {
+                if (!this.get('isManualStop')) {
+                    this.playMusic();
+                }
             }
         }
 
@@ -99,11 +109,20 @@ export default Ember.Service.extend({
     \*------------------------------------*/
 
     // TOGGLE MUSIC
+    toggleMusic(turnOnManualStop) {
+        console.log(1);
+        if (this.isPlaying) {
+            this.stopMusic(turnOnManualStop);
+        } else {
+            this.playMusic(turnOnManualStop);
+        }
+    },
 
     // PLAY MUSIC
-    play(turnOffManualStop) {
+    playMusic(turnOffManualStop) {
         let audio = this.get('audioElement');
         audio.play();
+        this.set('configObject.playOnInit', true);
         this.set('isPlaying', true);
 
         if (turnOffManualStop) {
@@ -113,7 +132,7 @@ export default Ember.Service.extend({
     },
 
     // STOP MUSIC
-    stop(turnOnManualStop) {
+    stopMusic(turnOnManualStop) {
         let audio = this.get('audioElement');
         audio.pause();
         this.set('isPlaying', false);

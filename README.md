@@ -92,7 +92,7 @@ Now you should have full access to Bg-music's methods and properties!
 
 Bg-music provides eight methods out of the box:
 
-1. `play(turnOffManualStop)`
+`play(turnOffManualStop)`
 
 Plays or resumes the background music.
 
@@ -104,7 +104,7 @@ this.get('bgMusic').play()
 
 Note that `bgMusic` is the property name of the Ember injected service
 
-2. `stop(turnOnManualStop)`
+`stop(turnOnManualStop)`
 
 Stops the background music completely.
 
@@ -127,18 +127,18 @@ play(true);
 
 Sets the `isManualStop` property to false. You want to do this if the user has explicitly turned the background music back on.
 
-3. `mute(turnOnManualStop)`
+`mute(turnOnManualStop)`
 
 Mutes the background music but does not stop it.
 
-4. `unmute(turnOffManualStop)`
+`unmute(turnOffManualStop)`
 
 Unmutes the background music.
 
-5. `fadeout()`
+`fadeout()`
 
 Gradually mutes the background music but does not stop it.
 
-6. `fadein()`
+`fadein()`
 
 Gradually unmutes the background music.

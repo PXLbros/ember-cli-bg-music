@@ -4,12 +4,17 @@ export default Ember.Controller.extend({
     bgMusic: Ember.inject.service(),
 
     actions: {
+
+        toggleMusic() {
+            this.get('bgMusic').toggleMusic(true);
+        },
+
         playMusic() {
-            this.get('bgMusic').play(true);
+            this.get('bgMusic').playMusic(true);
         },
 
         stopMusic() {
-            this.get('bgMusic').stop(true);
+            this.get('bgMusic').stopMusic(true);
         },
 
         muteMusic() {
