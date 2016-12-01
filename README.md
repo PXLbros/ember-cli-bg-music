@@ -92,7 +92,12 @@ Now you should have full access to Bg-music's methods and properties!
 
 Bg-music provides eight methods out of the box:
 
-`play(turnOffManualStop)`
+`toggleMusic(turnOffManualStop)`
+
+Toggles the background music on and off.
+
+
+`playMusic(turnOffManualStop)`
 
 Plays or resumes the background music.
 
@@ -104,7 +109,7 @@ this.get('bgMusic').play()
 
 Note that `bgMusic` is the property name of the Ember injected service
 
-`stop(turnOnManualStop)`
+`stopMusic(turnOnManualStop)`
 
 Stops the background music completely.
 
@@ -113,14 +118,14 @@ Bg-music automatically turns off the background music when the page is out of fo
 For example let's say you define an action method called `stopMusic()` that is called whenever the user clicks an element to turn off the background music. If you want the background music to stay turned off when the page is out of focus and later back in focus, then you'd want to use `stop()` and pass in `true`.
 
 ```js
-stop(true);
+stopMusic(true);
 ```
 
 Be aware that if you pass in `true` for `stop()`, you should remember to pass in `true` for `play()` as well to let the addon know that the background music will play when the page is back in focus.
 
 ```js
-stop(true);
-play(true);
+stopMusic(true);
+playMusic(true);
 ```
 
 ---
