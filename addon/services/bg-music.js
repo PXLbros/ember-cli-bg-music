@@ -98,7 +98,9 @@ export default Ember.Service.extend({
       ACTIONABLE METHODS
     \*------------------------------------*/
 
-    // Play music
+    // TOGGLE MUSIC
+
+    // PLAY MUSIC
     play(turnOffManualStop) {
         let audio = this.get('audioElement');
         audio.play();
@@ -108,10 +110,9 @@ export default Ember.Service.extend({
             this.turnOffManualStop(turnOffManualStop);
         }
 
-
     },
 
-    // Stop music
+    // STOP MUSIC
     stop(turnOnManualStop) {
         let audio = this.get('audioElement');
         audio.pause();
@@ -123,7 +124,7 @@ export default Ember.Service.extend({
 
     },
 
-    // Mute music
+    // MUTE MUSIC
     mute(turnOnManualStop) {
         let audio = this.get('audioElement');
         audio.muted = true;
@@ -132,7 +133,7 @@ export default Ember.Service.extend({
         this.turnOnManualStop(turnOnManualStop);
     },
 
-    // Unmute music
+    // UNMUTE MUSIC
     unmute(turnOffManualStop) {
         let audio = this.get('audioElement');
         audio.muted = false;
@@ -141,14 +142,14 @@ export default Ember.Service.extend({
         this.turnOffManualStop(turnOffManualStop);
     },
 
-    // Fade out
+    // FADE OUT MUSIC
     fadeout(callback) {
         // some logic to fade in
         let audio = this.get('audioElement');
         Ember.$(audio).animate({volume: 0}, 1000, callback);
     },
 
-    // Fade in
+    // FADE IN MUSIC
     fadein(callback) {
         let audio = this.get('audioElement');
         Ember.$(audio).animate({volume: 1}, 1000, callback);
