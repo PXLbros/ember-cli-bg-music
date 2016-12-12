@@ -6,6 +6,7 @@ export default Ember.Service.extend({
       INIT
     \*------------------------------------*/
     init() {
+        let self = this;
         this._super(...arguments);
 
         // Create the audio element
@@ -14,13 +15,30 @@ export default Ember.Service.extend({
         this.set('audioElement', audio);
 
         // Handle the prefixing of the visibilitychange API
-        this.get('prefixVisibilityChange').call(this);
+        // this.get('prefixVisibilityChange').call(this);
 
         // GET THE CONFIG OBJECT
         this.set('configObject', Ember.getOwner(this).resolveRegistration('config:environment'));
 
         // Handle page visibility change
-        document.addEventListener(this.get('visibilityChange'), this.get('handleVisibilityChange').bind(this, true), false);
+        document.addEventListener(this.getVisibilityEvent(), this.handleVisibilityChange(), false);
+
+        // extra event listeners for better behaviour
+        document.addEventListener('focus', function() {
+            self.handleVisibilityChange(true);
+        }, false);
+
+        document.addEventListener('blur', function() {
+            self.handleVisibilityChange(false);
+        }, false);
+
+        window.addEventListener('focus', function() {
+            self.handleVisibilityChange(true);
+        }, false);
+
+        window.addEventListener('blur', function() {
+            self.handleVisibilityChange(false);
+        }, false);
 
     },
 
@@ -47,47 +65,83 @@ export default Ember.Service.extend({
     // Vendor prefixed visibilitychange API
     visibilityChange: null,
 
+    browserPrefixes: ['moz', 'ms', 'o', 'webkit'],
+
+    isVisible: true,
+
 
     /*------------------------------------*\
       PASSIVE METHODS
     \*------------------------------------*/
 
-    // Perform a browser check to handle prefixing for the visibilitychange API
-    prefixVisibilityChange() {
-        if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and later support
-            this.set('hidden', 'hidden');
-            this.set('visibilityChange', 'visibilitychange');
-        } else if (typeof document.mozHidden !== "undefined") {
-            this.set('hidden', 'mozHidden');
-            this.set('visibilityChange', 'mozvisibilitychange');
-        } else if (typeof document.msHidden !== "undefined") {
-            this.set('hidden', 'msHidden');
-            this.set('visibilityChange', 'msvisibilitychange');
-        } else if (typeof document.webkitHidden !== "undefined") {
-            this.set('hidden', 'webkitHidden');
-            this.set('visibilityChange', 'webkitvisibilitychange');
-        }
+    getHiddenPropertyName(prefix) {
+        return (prefix ? prefix + 'Hidden' : 'hidden');
     },
 
+    getVisibilityEvent(prefix) {
+        return (prefix ? prefix : '') + 'visibilitychange';
+    },
 
-    // DETECT WHEN THE PAGE IS VISIBLE OR HIDDEN
-    handleVisibilityChange(forcedFlag) {
-        let audio = this.get('audioElement');
-
-        // IF USER TABS AWAY, STOP THE MUSIC
-        if (document[this.get('hidden')]) {
-            this.stopMusic();
-        } else {
-            // IF USER TABS BACK AND THE MUSIC HAS FINISHED LOADING
-            if (this.configObject.playOnInit) {
-                // IF THE MUSIC HAD NOT BEEN MANUALLY STOPPED
-                if (!this.get('isManualStop')) {
-                    // THEN PLAY THE MUSIC
-                    this.playMusic();
-                }
+    getBrowserPrefix() {
+        for (var i = 0; i < this.browserPrefixes.length; i++) {
+            if (this.getHiddenPropertyName(this.browserPrefixes[i]) in document) {
+            // return vendor prefix
+                return this.browserPrefixes[i];
             }
         }
 
+        // no vendor prefix needed
+        return null;
+    },
+
+    onVisible() {
+        // prevent double execution
+        if (this.isVisible) {
+            return;
+        }
+
+        // change flag value
+        this.isVisible = true;
+        console.log('visible');
+
+        if (this.configObject.playOnInit) {
+            // IF THE MUSIC HAD NOT BEEN MANUALLY STOPPED
+            if (!this.get('isManualStop')) {
+                // THEN PLAY THE MUSIC
+                this.playMusic();
+            }
+        }
+    },
+
+    onHidden() {
+        // prevent double execution
+        if (!this.isVisible) {
+            return;
+        }
+
+        // change flag value
+        this.isVisible = false;
+        console.log('hidden');
+
+        this.stopMusic();
+    },
+
+    handleVisibilityChange(forcedFlag) {
+        // forcedFlag is a boolean when this event handler is triggered by a
+        // focus or blur eventotherwise it's an Event object
+        if (typeof forcedFlag === "boolean") {
+            if (forcedFlag) {
+                return this.onVisible();
+            }
+
+            return this.onHidden();
+        }
+
+        if (document[this.getHiddenPropertyName(this.getBrowserPrefix())]) {
+            return this.onHidden();
+        }
+
+        return this.onVisible();
     },
 
 
