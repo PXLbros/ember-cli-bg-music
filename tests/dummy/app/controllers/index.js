@@ -25,14 +25,16 @@ export default Ember.Controller.extend({
             this.get('bgMusic').unmute();
         },
 
+        toggleFadeMusic() {
+            this.get('bgMusic').toggleFadeMusic(true);
+        },
+
         fadeOutMusic() {
-            this.get('bgMusic').fadeout();
+            this.get('bgMusic').fadeOutMusic(true);
         },
 
         fadeInMusic() {
-            this.get('bgMusic').fadein(() => {
-                this.send('playMusic');
-            });
+            this.get('bgMusic').fadeInMusic(true);
         }
     }
 

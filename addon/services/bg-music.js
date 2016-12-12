@@ -16,12 +16,11 @@ export default Ember.Service.extend({
         // Handle the prefixing of the visibilitychange API
         this.get('prefixVisibilityChange').call(this);
 
-        // Handle page visibility change
-        document.addEventListener(this.get('visibilityChange'), this.get('handleVisibilityChange').bind(this), false);
-
         // GET THE CONFIG OBJECT
         this.set('configObject', Ember.getOwner(this).resolveRegistration('config:environment'));
 
+        // Handle page visibility change
+        document.addEventListener(this.get('visibilityChange'), this.get('handleVisibilityChange').bind(this, true), false);
 
     },
 
@@ -70,15 +69,20 @@ export default Ember.Service.extend({
         }
     },
 
-    // Detect when the page is visible or hidden
-    handleVisibilityChange() {
+
+    // DETECT WHEN THE PAGE IS VISIBLE OR HIDDEN
+    handleVisibilityChange(forcedFlag) {
         let audio = this.get('audioElement');
 
+        // IF USER TABS AWAY, STOP THE MUSIC
         if (document[this.get('hidden')]) {
             this.stopMusic();
         } else {
+            // IF USER TABS BACK AND THE MUSIC HAS FINISHED LOADING
             if (this.configObject.playOnInit) {
+                // IF THE MUSIC HAD NOT BEEN MANUALLY STOPPED
                 if (!this.get('isManualStop')) {
+                    // THEN PLAY THE MUSIC
                     this.playMusic();
                 }
             }
@@ -160,17 +164,32 @@ export default Ember.Service.extend({
         this.turnOffManualStop(turnOffManualStop);
     },
 
+    // TOGGLE FADE MUSIC
+    toggleFadeMusic(turnOnManualStop) {
+        if (this.isPlaying) {
+            this.fadeOutMusic(turnOnManualStop);
+        } else {
+            this.fadeInMusic(turnOnManualStop);
+        }
+    },
+
     // FADE OUT MUSIC
-    fadeout(callback) {
+    fadeOutMusic(turnOnManualStop) {
+        let self = this;
         // some logic to fade in
         let audio = this.get('audioElement');
-        Ember.$(audio).animate({volume: 0}, 1000, callback);
+        Ember.$(audio).animate({volume: 0}, 1000, function() {
+            self.stopMusic(turnOnManualStop);
+        });
     },
 
     // FADE IN MUSIC
-    fadein(callback) {
+    fadeInMusic(turnOffManualStop) {
         let audio = this.get('audioElement');
-        Ember.$(audio).animate({volume: 1}, 1000, callback);
+        this.playMusic(turnOffManualStop);
+        Ember.$(audio).animate({volume: 1}, 1000, function() {
+
+        });
     }
 
 });
