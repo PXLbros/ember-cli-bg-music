@@ -102,7 +102,7 @@ export default Ember.Service.extend({
 
         // change flag value
         this.isVisible = true;
-        console.log('visible');
+        // console.log('visible');
 
         if (this.configObject.playOnInit) {
             // IF THE MUSIC HAD NOT BEEN MANUALLY STOPPED
@@ -121,7 +121,7 @@ export default Ember.Service.extend({
 
         // change flag value
         this.isVisible = false;
-        console.log('hidden');
+        // console.log('hidden');
 
         this.stopMusic();
     },
