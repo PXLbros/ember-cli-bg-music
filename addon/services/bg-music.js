@@ -221,8 +221,10 @@ export default Ember.Service.extend({
     // TOGGLE FADE MUSIC
     toggleFadeMusic(turnOnManualStop) {
         if (this.isPlaying) {
+            this.set('isPlaying', false);
             this.fadeOutMusic(turnOnManualStop);
         } else {
+            this.set('isPlaying', true);
             this.fadeInMusic(turnOnManualStop);
         }
     },
