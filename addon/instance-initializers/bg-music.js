@@ -1,6 +1,5 @@
 import Ember from 'ember';
 
-
 export function initialize(applicationInstance) {
 
     // Access the ENV object in the config/environment.js file

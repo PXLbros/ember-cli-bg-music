@@ -24,6 +24,7 @@ module.exports = function(environment) {
     musicURL: 'bensound-energy.mp3',
     playOnInit: false,
 
+
   };
 
   if (environment === 'development') {
