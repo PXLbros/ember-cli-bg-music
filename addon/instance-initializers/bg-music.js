@@ -9,17 +9,20 @@ export function initialize(applicationInstance) {
 
     // If an audio src hasn't been set, throw a console error
     if (!config.musicURL) {
-        throw "Must provide a url for addon";
+        // throw "Must provide a url for addon";
+
+    } else {
+        // Create the audio element and set its src
+        let audioElement = bgMusic.get('audioElement');
+        audioElement.setAttribute('src', config.musicURL);
+
+        // Play the background music on init if `playOnInit` property is set to true and the page isn't hidden
+        if (config.playOnInit && bgMusic.get('hidden') !== 'hidden') {
+            audioElement.play();
+        }
     }
 
-    // Create the audio element and set its src
-    let audioElement = bgMusic.get('audioElement');
-    audioElement.setAttribute('src', config.musicURL);
 
-    // Play the background music on init if `playOnInit` property is set to true and the page isn't hidden
-    if (config.playOnInit && bgMusic.get('hidden') !== 'hidden') {
-        audioElement.play();
-    }
 
 }
 
